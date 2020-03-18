@@ -1,0 +1,9 @@
+{% extends 'report/base.html' %}
+
+{% block header %}登录{% endblock %}
+{% block content %}
+<p>
+<a href="{% url 'report:oauth_login' %}" class="mb-1 btn btn-outline-primary">使用酒井 ID 认证登录</a>
+</p>
+<p>提示：在酒井 ID 认证页面中，如果在微信内请点击“微信登录”，否则请点击“清华 ID 登录”。</p>
+{% endblock %}

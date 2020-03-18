@@ -1,0 +1,15 @@
+{% extends 'report/base.html' %}
+{% load bootstrap4 %}
+
+{% block extrahead %}
+{{ form.media }}
+{% endblock %}
+
+{% block header %}进入楼宇申请{% endblock %}
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  {% buttons submit='提交' %}<a href="{% url 'report:entry_list' %}" class="btn btn-outline-secondary ml-1">返回</a>{% endbuttons %}
+</form>
+{% endblock %}

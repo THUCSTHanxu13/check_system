@@ -1,0 +1,12 @@
+{% extends 'report/base.html' %}
+
+{% block header %}材料查重系统{% endblock %}
+{% block content %}
+
+    <form action="/check/upload/" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <input type="file" name="filename" value="">
+        <input type="submit" value="上传">
+    </form>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'report/base.html' %}
+{% load bootstrap4 %}
+{% load render_table from django_tables2 %}
+
+{% block header %}进入楼宇申请{% endblock %}
+{% block content %}
+<p><a href="{% url 'report:entry_detail' %}" class="btn btn-primary">新的申请</a></p>
+{% render_table table %}
+<p class="text-warning">注意：进行修改操作后审批状态将会重置。</p>
+{% endblock %}

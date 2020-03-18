@@ -1,0 +1,9 @@
+{% extends 'report/base.html' %}
+{% load bootstrap4 %}
+{% load render_table from django_tables2 %}
+
+{% block header %}每日健康打卡{% endblock %}
+{% block content %}
+<p><a href="{% url 'report:record_detail' %}" class="btn btn-primary">今日打卡</a></p>
+{% render_table table %}
+{% endblock %}

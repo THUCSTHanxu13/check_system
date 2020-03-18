@@ -1,0 +1,15 @@
+{% extends 'report/base.html' %}
+{% load bootstrap4 %}
+
+{% block extrahead %}
+{{ form.media }}
+{% endblock %}
+
+{% block header %}个人基本信息{% endblock %}
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  {% buttons submit='提交' %}{% endbuttons %}
+</form>
+{% endblock %}

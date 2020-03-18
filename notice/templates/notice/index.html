@@ -1,0 +1,15 @@
+{% extends 'report/base.html' %}
+{% load notice_ack %}
+
+{% block header %}所有通知{% endblock %}
+{% block content %}
+<ul>
+{% for notice in notices %}
+<li>
+{% if not notice|acked_by:user %}<strong>{% endif %}
+<a href="{% url 'notice:detail' notice.id %}">{{ notice.title }}</a>，{{ notice.source }}，{{ notice.post_time|date }}，阅读 {{ notice.read_count }} 次
+{% if not notice|acked_by:user %}</strong>{% endif %}
+</li>
+{% endfor %}
+</ul>
+{% endblock %}

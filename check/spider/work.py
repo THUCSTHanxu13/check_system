@@ -1,19 +1,23 @@
 #coding:utf-8
-from utils import website_utils
-from utils import parser_utils
+from .utils import website_utils
+from .utils import parser_utils
+import docx
 from docx import Document
-import name
+import time
 import random
+import json
 
 class docx_analyzer(object):
 
-	def __init__(self, model_path, driver_path, page_scope = 15, piece_scope = 30, para_scope = 25, rate_scope = 0.7):
+	def __init__(self, model_path, driver_path, upload_path, download_path, page_scope = 15, piece_scope = 30, para_scope = 25, rate_scope = 0.7):
 		self.website_utils = website_utils(driver_path)
 		self.parser_utils = parser_utils(model_path)
 		self.page_scope = page_scope
 		self.piece_scope = piece_scope
 		self.para_scope = para_scope
 		self.rate_scope = rate_scope
+		self.upload_path = upload_path
+		self.download_path = download_path
 
 	def check(self, sen):
 		res = self.website_utils.get_sogou_ab_from_text_with_scope(sen, self.page_scope)
@@ -89,7 +93,6 @@ class docx_analyzer(object):
 		return info
 
 	def export_to_docx(self, res, rate):
-		new_document(self):
 		document = Document()
 		document.add_heading("重合率%.2f"%(rate), level = 2)
 		for i in res:
@@ -101,17 +104,15 @@ class docx_analyzer(object):
 					para.add_run(j[0])
 		name = time.strftime('%Y_%m_%d_%H_%M_%S',time.localtime(time.time()))
 		name = name + "_%d"%((int)(random.random()*10000))
-		document.save('./download/'+name+'.docx')
+		document.save(self.download_path + name + '.docx')
 		return name
 
+# print (res[1])
+# f = open("res.json", "w")
+# f.write(json.dumps(res))
+# f.close()
 
-analyzer = docx_analyzer(model_path = 'models', driver_path = "drivers")
-res = analyzer.analyze_docx('test.docx')
-
-print (res[1])
-f = open("res.json", "w")
-f.write(json.dumps(res))
-f.close()
-
-
-
+# f = open("res.json", "r")
+# a = json.loads(f.read())
+# all_res, rate = a
+# f.close()

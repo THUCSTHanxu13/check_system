@@ -1,0 +1,18 @@
+{% extends 'report/base.html' %}
+{% load bootstrap4 %}
+{% load django_tables2 %}
+
+{% block header %}进入楼宇申请审批结果{% endblock %}
+{% block content %}
+<p class="lead">
+楼宇：{{ building.name }}<br>
+日期：{{ date }}<br>
+</p>
+<p>
+<a class="mb-1 btn btn-outline-primary" href="{% url 'report:building_detail' building.uuid prev_day %}">前一天</a>
+<a class="mb-1 btn btn-outline-primary" href="{% url 'report:building_detail' building.uuid %}">今天</a>
+<a class="mb-1 btn btn-outline-primary" href="{% url 'report:building_detail' building.uuid next_day %}">后一天</a>
+<a class="mb-1 btn btn-primary" href="{% export_url 'xlsx' %}">导出为 Excel 文件</a>
+</p>
+{% render_table table %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'report/base.html' %}
+{% load bootstrap4 %}
+
+{% block extrahead %}
+{{ form.media }}
+{% endblock %}
+
+{% block header %}每日健康打卡{% endblock %}
+{% block content %}
+<form method="post">
+  {% buttons %}
+  {% if not submitted %}
+  <button class="btn btn-primary" type="submit" name="healthy">一切正常！</button>
+  <small class="form-text text-muted">如果身体状况正常，可直接点击上面的“一切正常！”按钮。</small>
+  {% else %}
+  <button class="btn btn-primary" disabled>今日已打卡</button>
+  {% endif %}
+  {% endbuttons %}
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  {% buttons submit=submitted|yesno:'修改,提交' %}<a href="{% url 'report:record_list' %}" class="btn btn-outline-secondary ml-1">返回</a>{% endbuttons %}
+</form>
+{% endblock %}

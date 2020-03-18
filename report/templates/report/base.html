@@ -1,0 +1,36 @@
+{% load static %}
+{% load bootstrap4 %}
+{% load stringmethods %}
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    {% block extrahead %}{% endblock %}
+    <title>计算机系党委疫情防控信息系统</title>
+  </head>
+  <body>
+    <div id="main" class="container">
+      {% if user.is_authenticated %}
+      <p>{{ user.person.name }}老师，您好！</p>
+      <p>
+        <a class="mb-1 btn btn{% if request.path != '/' %}-outline{% endif %}-primary" href="{% url 'report:home' %}">首页</a>
+        <a class="mb-1 btn btn{% if not request.path|startswith:'/record/' %}-outline{% endif %}-primary" href="{% url 'report:record_list' %}">每日健康打卡</a>
+        <a class="mb-1 btn btn{% if not request.path|startswith:'/entry/' %}-outline{% endif %}-primary" href="{% url 'report:entry_list' %}">进入楼宇申请</a>
+        <a class="mb-1 btn btn{% if not request.path|startswith:'/profile/' %}-outline{% endif %}-primary" href="{% url 'report:profile' %}">个人基本信息</a>
+        {% if user.is_staff %}<a class="mb-1 btn btn-outline-danger" href="{% url 'admin:index' %}">管理</a>{% endif %}
+        <a class="mb-1 btn btn-outline-secondary" href="{% url 'report:logout' %}">退出</a>
+      </p>
+      {% endif %}
+      {% bootstrap_messages %}
+      <h3>{% block header %}{% endblock %}</h3>
+      {% block content %}{% endblock %}
+      <div class="footer">
+        <hr>
+        <p>&copy; 2020 清华大学计算机科学与技术系</p>
+      </div>
+    </div>
+  </body>
+</html>
