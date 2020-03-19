@@ -6,6 +6,7 @@ from docx import Document
 import time
 import random
 import json
+from docx.oxml.ns import qn
 
 class docx_analyzer(object):
 
@@ -78,23 +79,26 @@ class docx_analyzer(object):
 
 	def export_to_html(self, res, rate):
 		info = {}
-		info['rate'] = rate
+		info['rate'] = "%.2f"%(rate*100)
 		context = []
 		fade = []
 		for i in res:
+			context.append([])
 			for j in i:
 				if j[1] != "":
-					context.append((True, j[0], '#'+str(len(fade))))
-					fade.append(('#'+str(len(fade)),j[1],j[2], "%.2f"%(rate*100)))
+					context[-1].append((True, j[0], '#'+str(len(fade))))
+					fade.append(('#'+str(len(fade)),j[1],j[2], "%.2f"%(j[3]*100)))
 				else:
-					context.append((False, j[0], ''))
+					context[-1].append((False, j[0], ''))
 		info['fade'] = fade
 		info['context'] = context
 		return info
 
-	def export_to_docx(self, res, rate):
+	def export_to_docx(self, res, rate, name = None):
 		document = Document()
-		document.add_heading("重合率%.2f"%(rate), level = 2)
+		document.styles['Normal'].font.name = u'宋体'
+		document.styles['Normal']._element.rPr.rFonts.set(qn('w:eastAsia'), u'宋体')
+		document.add_heading("重复率%.2f%%"%(rate*100), level = 2)
 		for i in res:
 			para = document.add_paragraph("    ")
 			for j in i:
@@ -102,9 +106,12 @@ class docx_analyzer(object):
 					para.add_run(j[0]).bold = True
 				else:
 					para.add_run(j[0])
-		name = time.strftime('%Y_%m_%d_%H_%M_%S',time.localtime(time.time()))
-		name = name + "_%d"%((int)(random.random()*10000))
-		document.save(self.download_path + name + '.docx')
+		if name == None:
+			name = time.strftime('%Y_%m_%d_%H_%M_%S',time.localtime(time.time()))
+			name = name + "_%d"%((int)(random.random()*10000))
+			name = self.download_path + name + '.docx'
+
+		document.save(name)
 		return name
 
 # print (res[1])

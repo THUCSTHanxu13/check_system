@@ -1,0 +1,102 @@
+{% extends 'report/base.html' %}
+
+{% block extrahead %}
+    <style> 
+        .white_content { 
+            display: none; 
+        } 
+    </style> 
+
+    <script type="text/javascript">
+
+        function openDialog(obj){
+            var thisObj = $(obj)
+            document.getElementById(thisObj.attr("purpose")).style.display='block';
+        }
+        function closeDialog(obj){
+            var thisObj = $(obj)
+            document.getElementById(thisObj.attr("purpose")).style.display='none';
+        }
+    </script>
+
+{% endblock %}
+
+{% block header %}
+材料查重系统
+<hr/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container" >
+        <div class="row">
+            <div class="col-md-8">
+                <form action="/check/upload/" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    <input type="file" name="filename" value="">
+                    <input type="submit" value="上传">
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <br/>
+    <div class="container" >
+        <div class="row">
+            <div class="col-md-8">
+            <p>
+            <h4>重复率：{{ html_info.rate  }} %</h4>
+            <a href="{{ info.download_name }}"> [查重结果全文下载] </a>
+            </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container" >
+        <div class="row">
+                <div class="col-md-8">
+                    {% for para in html_info.context %}
+                    <div>
+                        {% for item in para %}
+                            {% if not item.0 %}
+                                {{ item.1 }}
+                            {% endif %}
+                            {% if item.0 %}
+                                <a href = "JavaScript:void(0)" onclick = "openDialog(this)" purpose="{{ item.2 }}">
+                                    {{ item.1 }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div> 
+                    <br/>
+                    {% endfor %}
+                </div>
+                    
+                <div class="col-md-4">
+                    {% for item in html_info.fade %}
+                        <div id="{{item.0}}" class="white_content">
+                            <hr/>
+                                重复率：{{ item.3 }} %
+                                <a href = "javascript:void(0)" onclick = "closeDialog(this)" purpose="{{item.0}}">
+                                    <button type="button" class="close">&times;</button>
+                                </a>
+                                <br/>
+                                <a href = "{{item.1}}"> 
+                                    原文内容：
+                                </a>
+                                {{item.2}}
+                            <hr/>
+                        </div> 
+                    {% endfor %}
+                </div>  
+        </div>
+    </div> 
+
+{% endblock %}
+
+
+
+
+
+
+

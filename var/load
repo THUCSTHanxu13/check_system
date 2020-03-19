@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Load sample messages
+
+force="$1"
+for source_file in *.sample; do
+  target_file="${source_file%.sample}"
+  if [[ -n "$force" ]] || [[ ! -e "$target_file" ]]; then
+    cp -v "$source_file" "$target_file"
+  fi
+done

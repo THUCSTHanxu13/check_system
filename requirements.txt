@@ -14,3 +14,8 @@ requests==2.22.0
 requests-oauthlib==1.0.0
 rules==2.2
 tablib==1.1.0
+celery==4.4.2
+django-celery-results==1.2.1
+python-docx==0.8.10
+redis==3.4.1
+kombu==4.6.8

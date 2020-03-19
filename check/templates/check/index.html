@@ -1,6 +1,9 @@
 {% extends 'report/base.html' %}
 
-{% block header %}材料查重系统{% endblock %}
+{% block header %}
+材料查重系统
+<hr/>
+{% endblock %}
 {% block content %}
 
     <form action="/check/upload/" enctype="multipart/form-data" method="post">

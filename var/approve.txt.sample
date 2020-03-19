@@ -1,0 +1,6 @@
+进楼申请审批提醒
+您好！有 {count} 项进楼申请需要审批。
+
+点击以下链接进行审批操作：
+
+<a href="https://r.cs.tsinghua.edu.cn/admin/report/entry/?approve3_decision__isnull=True" style="font-size: 150%">进楼申请审批</a>

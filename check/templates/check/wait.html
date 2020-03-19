@@ -1,0 +1,48 @@
+{% extends 'report/base.html' %}
+
+{% block extrahead %}
+
+<script type="text/javascript"> 
+
+    var uid = "{{ info.uid }}";
+
+    $(document).ready(function(){
+        var timer = setInterval(function(){ajax_wx_pay_status(timer)}, 1000);
+    });
+
+    function ajax_wx_pay_status(timer) {
+        var toUrl = "/check/wait/";
+        var orderUrl = "/check/download/";
+        var indexUrl = "/check/index/"
+        $.post(toUrl, 
+        {
+            'uid':uid,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        }, 
+        function (res) {
+            console.log(res);
+            if (res.status == 1) {
+                clearInterval(timer);
+                window.location.href = orderUrl + "{{ info.uid }}" + "/";
+            }
+            if (res.status == -1) {
+                clearInterval(timer);
+                window.location.href = indexUrl ;
+            }
+        }, "JSON");
+    }
+
+</script>
+
+{% endblock %}
+
+{% block header %}
+材料查重系统
+<hr/>
+{% endblock %}
+
+{% block content %}
+    <p>请耐心等待查询结果......</p>
+{% endblock %}
+
+
